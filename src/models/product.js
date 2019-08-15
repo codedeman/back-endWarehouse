@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const validate = require('validator')
 const Product = mongoose.model('Product',{
+    
     product_code:{
         type:String,
         require:true
