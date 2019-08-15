@@ -21,7 +21,6 @@ router.post('/users/login',async(req,res) =>{
             req.body.password
             )
             res.send(user)
-
     }catch (e){
 
         res.status(400).send(e)
