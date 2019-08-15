@@ -1,6 +1,7 @@
 const validate = require('validator')
 
 const mongoose = require('mongoose')
+const UserSchema = new mongoose.Schema()
 const User = mongoose.model('User',{
 
     email:{
@@ -16,16 +17,21 @@ const User = mongoose.model('User',{
             }
         }
     },
-    user_name:{
+    password:{
         type:String,
         require:true
 
-    },
-    phone_number:{
-        type:String,
-        require:true
     }
 
+    
+
+})
+
+UserSchema.pre('save',async (nex)=>{
+
+    const user =  this
+    console.log('just before saving')
+    next()
 })
 
 module.exports = User
