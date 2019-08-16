@@ -1,5 +1,6 @@
 const express = require('express')
 const User = require('../models/user')
+const auth = require('../middleware/auth')
 const router = new express.Router()
 const jwt = require('jsonwebtoken')
 
@@ -56,5 +57,21 @@ router.get('/users/:id', async (req, res) => {
         res.status(500).send()
     }
 })
+
+router.delete('/users/id',auth,async(req,res)=>{
+
+
+    console.log("what do want to delete")
+    try{
+        const user = await User.findById(_id)
+        await user.remove()
+        res.send(req.user)
+    }catch(e){
+        res.status(500).send()
+    }
+
+})
+
+
 
 module.exports = router
