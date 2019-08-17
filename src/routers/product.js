@@ -1,5 +1,7 @@
 const express = require('express')
 const Product = require('../models/product')
+const auth = require('../middleware/auth')
+
 const router = new express.Router()
 
 
@@ -23,8 +25,8 @@ router.get('products/:id',async(req,res)=>{
     const _id =  req.params.id
 
     try{
-        const product =  await Product.findById(_id)
-        // const pr = await Product.findOne({ _id, owner: req.user._id })
+        // const product =  await Product.findById(_id)
+        const product = await Product.findOne({ _id, owner: req.user._id })
 
         if(!product){
             return res.status(404).send()
@@ -37,10 +39,12 @@ router.get('products/:id',async(req,res)=>{
     }
 })
 
-router.get('/products', async (req, res) => {
+router.get('/products',auth, async (req, res) => {
     try {
-        const tasks = await Product.find({})
-        res.send(tasks)
+        const products = await Product.find({})
+        res.send(products)
+        // await req.user.populate('products').execPopulate()
+        // res.send(req.user.product)
     } catch (e) {
         res.status(500).send()
     }

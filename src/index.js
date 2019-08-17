@@ -10,18 +10,18 @@ const port = process.env.PORT || 3000
 app.use(express.json())
 app.use(userRouter)
 app.use(productRouter)
-// app.use((req,res,next)=>{
+app.use((req,res,next)=>{
 
-//     if(req.method ==='GET'){
-//         res.send('Get requests are disable')
+    if(req.method ==='GET'){
+        res.send('Get requests are disable')
 
-//     }else{
+    }else{
 
-//         next()
-//     }
-//     // console.log(req.method,req.path)
-//     // next()
-// })
+        next()
+    }
+    // console.log(req.method,req.path)
+    // next()
+})
 
 // app.use((req,res, next)=>{
 

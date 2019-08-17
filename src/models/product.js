@@ -23,6 +23,17 @@ const Product = mongoose.model('Product',{
         }
        
     },
+    amount:{
+        
+        type:Number
+        // validate(value){
+
+        //     if(value<0){
+
+        //         throw new Error("Price must be postive number")
+        //     }
+        // }
+    },
     completed: {
         type: Boolean,
         default: false

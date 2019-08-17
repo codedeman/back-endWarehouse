@@ -4,7 +4,7 @@ const auth = require('../middleware/auth')
 const router = new express.Router()
 const jwt = require('jsonwebtoken')
 
-router.post('/users', async (req, res) => {
+router.post('/users', auth,async (req, res) => {
     const user = new User(req.body)
     try {
         await user.save()
@@ -33,10 +33,13 @@ router.post('/users/login',async(req,res) =>{
 })
 
 
-router.get('/users', async (req, res) => {
+router.get('/users',auth, async (req, res) => {
+
+    // res.send(req.user)
+
     try {
-        const users = await User.find({})
-        res.send(users)
+        const user = await User.find({})
+        res.send(user)
     } catch (e) {
         res.status(500).send()
     }
@@ -59,19 +62,32 @@ router.get('/users/:id', async (req, res) => {
 })
 
 router.delete('/users/id',auth,async(req,res)=>{
-
-
+    
     console.log("what do want to delete")
     try{
         const user = await User.findById(_id)
         await user.remove()
-        res.send(req.user)
+        // res.send(req.user)
     }catch(e){
         res.status(500).send()
     }
 
 })
 
+router.post('users/logout',auth, async(req,res) =>{
+
+    try {
+        
+        req.user.token =  req.user.token.filter((token)=>{
+            return token.token !== req.token
+        })
+        await req.user.save()
+        res.send()
+    } catch (error) {
+        res.status(500).send()
+    }
+
+})
 
 
 module.exports = router
